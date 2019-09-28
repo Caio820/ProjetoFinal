@@ -2,28 +2,28 @@ package com.example.projetofinal;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     private Button buttonFormulario;
     private EditText editTextNome, editTextIdade, editTextPeso, editTextAltura, editTextEmail;
     private CheckBox checkBoxMasculino, checkBoxFeminino;
+    private Boolean  masculino = false, feminino = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        editTextNome = findViewById(R.id.editTextNome);
-        editTextIdade = findViewById(R.id.editTextIdade);
-        editTextPeso = findViewById(R.id.editTextPeso);
-        editTextAltura = findViewById(R.id.editTextAltura);
-        editTextEmail = findViewById(R.id.editTextEmail);
+
         checkBoxMasculino = findViewById(R.id.checkBoxMasculino);
         checkBoxFeminino = findViewById(R.id.checkBoxFeminino);
         buttonFormulario = findViewById(R.id.buttonFormulario);
@@ -31,20 +31,24 @@ public class MainActivity extends AppCompatActivity {
         checkBoxMasculino.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                masculino = true;
                 if(checkBoxFeminino.isChecked() == true) {
                     checkBoxFeminino.toggle();
-                }else{
-
+                    feminino = false;
+                }else if (checkBoxMasculino.isChecked() == false){
+                    masculino = false;
                 }
             }
         });
         checkBoxFeminino.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                feminino = true;
                 if(checkBoxMasculino.isChecked() == true) {
                     checkBoxMasculino.toggle();
-                }else{
-
+                    masculino = false;
+                }else if(checkBoxFeminino.isChecked() == false){
+                    feminino = false;
                 }
             }
         }));
@@ -52,44 +56,78 @@ public class MainActivity extends AppCompatActivity {
         buttonFormulario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, TelaPrincipalActivity.class);
-                intent.putExtra("Nome", getNome());
-                intent.putExtra("Idade", getIdade());
-                intent.putExtra("Sexo", getSexo());
-                intent.putExtra("Peso", getPeso());
-                intent.putExtra("Altura", getAltura());
-                intent.putExtra("Email", getEmail());
-                startActivity(intent);
+
+                if(getNome().isEmpty() || getIdade() <= 0 || (masculino  == false && feminino == false) || getPeso() <= 0 || getAltura() <= 0 || getEmail().isEmpty()){
+                  showMessage("Preencha todos os campos.");
+                }
+                else {
+                    Intent intent = new Intent(MainActivity.this, TelaPrincipalActivity.class);
+                    intent.putExtra("Nome", getNome());
+                    intent.putExtra("Idade", getIdade());
+                    intent.putExtra("Sexo", getSexo());
+                    intent.putExtra("Peso", getPeso());
+                    intent.putExtra("Altura", getAltura());
+                    intent.putExtra("Email", getEmail());
+                    startActivity(intent);
+                }
             }
         });
     }
 
     private String getNome(){
-        return  editTextNome.getText().toString();
+        editTextNome = findViewById(R.id.editTextNome);
+        return editTextNome.getText().toString();
     }
 
     private Integer getIdade(){
-        return Integer.parseInt(editTextIdade.getText().toString());
+        try {
+            editTextIdade = findViewById(R.id.editTextIdade);
+            return Integer.parseInt(editTextIdade.getText().toString());
+        } catch (Exception e){
+            return 0;
+        }
     }
 
     private Double getPeso(){
-        return Double.parseDouble(editTextPeso.getText().toString());
+        try {
+            editTextPeso = findViewById(R.id.editTextPeso);
+            return Double.parseDouble(editTextPeso.getText().toString());
+        }catch (Exception e){
+            return 0.0;
+        }
     }
 
     private Double getAltura(){
-        return Double.parseDouble(editTextAltura.getText().toString());
+        try {
+            editTextAltura = findViewById(R.id.editTextAltura);
+            return Double.parseDouble(editTextAltura.getText().toString());
+        }catch (Exception e){
+            return 0.0;
+        }
     }
 
     private String getEmail(){
+        editTextEmail = findViewById(R.id.editTextEmail);
         return editTextEmail.getText().toString();
     }
 
     private String getSexo(){
-        if(checkBoxMasculino.isChecked()){
+        if(masculino == true){
             return "Masculino";
         }else {
             return "Feminino";
         }
+    }
+
+    private void showMessage(String mensagem){
+
+        Context context = getApplicationContext();
+        String text = mensagem;
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
+
     }
 
 }
