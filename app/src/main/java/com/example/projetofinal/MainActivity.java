@@ -62,12 +62,14 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else {
                     Intent intent = new Intent(MainActivity.this, TelaPrincipalActivity.class);
+                    Intent intent2 = new Intent(MainActivity.this, PerfilActivity.class);
                     intent.putExtra("Nome", getNome());
-                    intent.putExtra("Idade", getIdade());
-                    intent.putExtra("Sexo", getSexo());
-                    intent.putExtra("Peso", getPeso());
-                    intent.putExtra("Altura", getAltura());
-                    intent.putExtra("Email", getEmail());
+                    intent2.putExtra("Nome", getNome());
+                    intent2.putExtra("Idade", getIdade());
+                    intent2.putExtra("Sexo", getSexo());
+                    intent2.putExtra("Peso", getPeso());
+                    intent2.putExtra("Altura", getAltura());
+                    intent2.putExtra("Email", getEmail());
                     startActivity(intent);
                 }
             }
