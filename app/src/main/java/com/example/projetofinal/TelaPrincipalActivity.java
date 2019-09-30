@@ -51,6 +51,10 @@ public class TelaPrincipalActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(TelaPrincipalActivity.this, PerfilActivity.class);
+                //String nomePerfil = intent.getExtras().getString("Nome");
+                //String idadePerfil = intent.getExtras().getString("Idade");
+                //intent.putExtra("NomePerfil", nomePerfil);
+                //intent.putExtra("IdadePerdil", idadePerfil);
                 startActivity(intent);
             }
         });

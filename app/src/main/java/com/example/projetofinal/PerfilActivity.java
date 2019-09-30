@@ -15,14 +15,20 @@ public class PerfilActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
 
-        textViewNome = findViewById(R.id.textViewNomePerfil);
-        textViewIdade = findViewById(R.id.textViewIdadePerfil);
+        Intent intent = getIntent();
+
         textViewSexo = findViewById(R.id.textViewSexoPerfil);
         textViewPeso = findViewById(R.id.textViewPesoPerfil);
         textViewAltura = findViewById(R.id.textViewAlturaPerfil);
         textViewEmail = findViewById(R.id.textViewEmailPerfil);
 
-        Intent intent = getIntent();
-        
+        /*String nomePerfil = intent.getExtras().getString("NomePerfil");
+        textViewNome = findViewById(R.id.textViewNomePerfil);
+        textViewNome.setText("Nome: " + nomePerfil + ".");
+        */
+        /*String idadePerfil = intent.getExtras().getString("IdadePerfil");
+        textViewIdade = findViewById(R.id.textViewIdadePerfil);
+        textViewIdade.setText("Nome: " + idadePerfil + ".");
+        */
     }
 }
